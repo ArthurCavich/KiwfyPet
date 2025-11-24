@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pet.id != null ? 'Editar Pet' : 'Novo Pet'} + ' - KiwfyPet'">Formulário de Pet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 th:text="${pet.id != null ? 'Editar Pet' : 'Novo Pet'}">Formulário de Pet</h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/pets/salvar}" th:object="${pet}" method="post">
+                            <!-- Campo ID (oculto para edição) -->
+                            <input type="hidden" th:field="*{id}"/>
+                            
+                            <!-- Nome -->
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="nome" 
+                                       th:field="*{nome}" 
+                                       required
+                                       placeholder="Digite o nome do pet">
+                            </div>
+                            
+                            <!-- Espécie -->
+                            <div class="mb-3">
+                                <label for="especie" class="form-label">Espécie <span class="text-danger">*</span></label>
+                                <select class="form-select" 
+                                        id="especie" 
+                                        th:field="*{especie}" 
+                                        required>
+                                    <option value="">Selecione uma espécie</option>
+                                    <option value="Cachorro">Cachorro</option>
+                                    <option value="Gato">Gato</option>
+                                    <option value="Pássaro">Pássaro</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Raça -->
+                            <div class="mb-3">
+                                <label for="raca" class="form-label">Raça <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="raca" 
+                                       th:field="*{raca}" 
+                                       required
+                                       placeholder="Digite a raça do pet">
+                            </div>
+                            
+                            <!-- Idade -->
+                            <div class="mb-3">
+                                <label for="idade" class="form-label">Idade (anos)</label>
+                                <input type="number" 
+                                       class="form-control" 
+                                       id="idade" 
+                                       th:field="*{idade}" 
+                                       min="0"
+                                       placeholder="Digite a idade do pet">
+                            </div>
+                            
+                            <!-- Cor -->
+                            <div class="mb-3">
+                                <label for="cor" class="form-label">Cor</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="cor" 
+                                       th:field="*{cor}" 
+                                       placeholder="Digite a cor do pet">
+                            </div>
+                            
+                            <!-- Observações -->
+                            <div class="mb-3">
+                                <label for="observacoes" class="form-label">Observações</label>
+                                <textarea class="form-control" 
+                                          id="observacoes" 
+                                          th:field="*{observacoes}" 
+                                          rows="4"
+                                          placeholder="Digite observações sobre o pet"></textarea>
+                            </div>
+                            
+                            <!-- Botões -->
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/pets}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-primary">
+                                    <span th:text="${pet.id != null ? 'Atualizar' : 'Salvar'}">Salvar</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
