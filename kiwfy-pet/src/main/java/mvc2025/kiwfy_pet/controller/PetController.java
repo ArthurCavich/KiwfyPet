@@ -1,7 +1,9 @@
 package mvc2025.kiwfy_pet.controller;
 
 import mvc2025.kiwfy_pet.model.Pet;
+import mvc2025.kiwfy_pet.service.OwnerService;
 import mvc2025.kiwfy_pet.service.PetService;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,9 @@ public class PetController {
     @Autowired
     private PetService petService;
     
+    @Autowired
+    private OwnerService ownerService;
+    
     // Listar todos os pets
     @GetMapping
     public String listar(Model model) {
@@ -26,6 +31,7 @@ public class PetController {
     @GetMapping("/novo")
     public String novo(Model model) {
         model.addAttribute("pet", new Pet());
+        model.addAttribute("owners", ownerService.listarTodos());
         return "pets/form";
     }
     
@@ -35,6 +41,7 @@ public class PetController {
         var pet = petService.buscarPorId(id);
         if (pet.isPresent()) {
             model.addAttribute("pet", pet.get());
+            model.addAttribute("owners", ownerService.listarTodos());
             return "pets/form";
         } else {
             redirectAttributes.addFlashAttribute("erro", "Pet não encontrado!");
@@ -44,7 +51,15 @@ public class PetController {
     
     // Salvar pet (criar ou atualizar)
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute Pet pet, RedirectAttributes redirectAttributes) {
+    public String salvar(@ModelAttribute Pet pet, 
+                        @RequestParam(required = false) Long ownerId,
+                        RedirectAttributes redirectAttributes) {
+        if (ownerId != null) {
+            var owner = ownerService.buscarPorId(ownerId);
+            if (owner.isPresent()) {
+                pet.setOwner(owner.get());
+            }
+        }
         petService.salvar(pet);
         redirectAttributes.addFlashAttribute("sucesso", "Pet salvo com sucesso!");
         return "redirect:/pets";

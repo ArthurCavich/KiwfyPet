@@ -33,8 +33,8 @@
                             <th>Nome</th>
                             <th>Espécie</th>
                             <th>Raça</th>
+                            <th>Tutor</th>
                             <th>Idade</th>
-                            <th>Cor</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -44,13 +44,17 @@
                             <td th:text="${pet.nome}"></td>
                             <td th:text="${pet.especie}"></td>
                             <td th:text="${pet.raca}"></td>
+                            <td th:text="${pet.owner != null ? pet.owner.nome : 'Sem tutor'}"></td>
                             <td th:text="${pet.idade != null ? pet.idade + ' anos' : 'N/A'}"></td>
-                            <td th:text="${pet.cor != null ? pet.cor : 'N/A'}"></td>
                             <td>
-                                <a th:href="@{/pets/editar/{id}(id=${pet.id})}" class="btn btn-sm btn-warning">Editar</a>
+                                <a th:href="@{/pets/editar/{id}(id=${pet.id})}" class="btn btn-sm btn-warning">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
                                 <a th:href="@{/pets/excluir/{id}(id=${pet.id})}" 
                                    class="btn btn-sm btn-danger"
-                                   onclick="return confirm('Tem certeza que deseja excluir este pet?')">Excluir</a>
+                                   onclick="return confirm('Tem certeza que deseja excluir este pet?')">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </a>
                             </td>
                         </tr>
                     </tbody>
