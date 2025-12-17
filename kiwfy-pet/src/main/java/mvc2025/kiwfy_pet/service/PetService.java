@@ -1,6 +1,5 @@
 package mvc2025.kiwfy_pet.service;
 
-import mvc2025.kiwfy_pet.model.Owner;
 import mvc2025.kiwfy_pet.model.Pet;
 import mvc2025.kiwfy_pet.model.Tutor;
 import mvc2025.kiwfy_pet.repository.PetRepository;
@@ -20,9 +19,6 @@ public class PetService {
     @Autowired
     private TutorRepository tutorRepository;
 
-    @Autowired
-    private OwnerRepository ownerRepository;
-
     public List<Pet> listarTodos() {
         return petRepository.findAll();
     }
@@ -32,16 +28,15 @@ public class PetService {
     }
 
     public Pet salvar(Pet pet) {
-
         // Garantir vínculo com tutor, se informado
         if (pet.getTutor() != null && pet.getTutor().getId() != null) {
             Optional<Tutor> tutorOpt = tutorRepository.findById(pet.getTutor().getId());
+            tutorOpt.ifPresent(pet::setTutor);
         } else {
             pet.setTutor(null);
-
-        // Se o owner foi selecionado pelo ID, buscar o objeto Owner completo
-        if (pet.getOwner() != null && pet.getOwner().getId() != null) {
-            Optional<Owner> ownerOpt = ownerRepository.findById(pet.getOwner().getId());
+        }
+        return petRepository.save(pet);
+    }
 
     public void excluir(Long id) {
         petRepository.deleteById(id);
