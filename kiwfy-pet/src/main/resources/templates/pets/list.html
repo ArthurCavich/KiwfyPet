@@ -6,7 +6,7 @@
             <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Lista de Pets</h1>
-            <a th:href="@{/pets/novo}" class="btn btn-primary">Novo Pet</a>
+            <a th:href="@{/pets/novo}" class="btn btn-kiwi-brown">Novo Pet</a>
         </div>
         
         <!-- Mensagens de sucesso/erro -->
@@ -26,9 +26,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Foto</th>
                             <th>Nome</th>
                             <th>Espécie</th>
                             <th>Raça</th>
+                            <th>Tutor</th>
+                            <th>Bairro</th>
                             <th>Idade</th>
                             <th>Cor</th>
                             <th>Ações</th>
@@ -37,13 +40,20 @@
                     <tbody>
                         <tr th:each="pet : ${pets}">
                             <td th:text="${pet.id}"></td>
+                            <td>
+                                <img th:src="${pet.fotoUrl != null && !pet.fotoUrl.isEmpty() ? pet.fotoUrl : 'https://placehold.co/80x60?text=Pet'}"
+                                     style="width:80px; height:60px; object-fit: cover; object-position: center;"
+                                     alt="foto pet">
+                            </td>
                             <td th:text="${pet.nome}"></td>
                             <td th:text="${pet.especie}"></td>
                             <td th:text="${pet.raca}"></td>
+                            <td th:text="${pet.tutor != null ? pet.tutor.nome : 'Sem tutor'}"></td>
+                            <td th:text="${pet.bairro != null ? pet.bairro : 'N/A'}"></td>
                             <td th:text="${pet.idade != null ? pet.idade + ' anos' : 'N/A'}"></td>
                             <td th:text="${pet.cor != null ? pet.cor : 'N/A'}"></td>
                             <td>
-                                <a th:href="@{/pets/editar/{id}(id=${pet.id})}" class="btn btn-sm btn-warning">Editar</a>
+                                <a th:href="@{/pets/editar/{id}(id=${pet.id})}" class="btn btn-sm btn-kiwi-brown">Editar</a>
                                 <a th:href="@{/pets/excluir/{id}(id=${pet.id})}" 
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('Tem certeza que deseja excluir este pet?')">Excluir</a>
@@ -55,9 +65,9 @@
         </div>
         
         <!-- Mensagem quando não há pets -->
-        <div th:if="${pets == null or pets.isEmpty()}" class="alert alert-info">
-            <h5>Nenhum pet cadastrado ainda.</h5>
-            <p>Clique em "Novo Pet" para começar a cadastrar.</p>
+        <div th:if="${pets == null or pets.isEmpty()}" class="alert alert-success">
+            <h5 class="mb-1">Nenhum pet cadastrado ainda.</h5>
+            <p class="mb-0">Clique em "Novo Pet" para começar a cadastrar.</p>
         </div>
     </div>
     </div>

@@ -26,6 +26,17 @@ public class Localizador {
     
     private String endereco;
 
+    private String bairro;
+
+    @Column(length = 500)
+    private String fotoUrl;
+
+    private Double latitude;
+
+    private Double longitude;
+
+    private Boolean encontrado = false;
+
     private String senha;
     
     @Column(length = 500)

@@ -1,12 +1,18 @@
 package mvc2025.kiwfy_pet.controller;
 
-import mvc2025.kiwfy_pet.model.Pet;
-import mvc2025.kiwfy_pet.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import mvc2025.kiwfy_pet.model.Pet;
+import mvc2025.kiwfy_pet.service.PetService;
+import mvc2025.kiwfy_pet.service.TutorService;
 
 @Controller
 @RequestMapping("/pets")
@@ -14,6 +20,9 @@ public class PetController {
     
     @Autowired
     private PetService petService;
+
+    @Autowired
+    private TutorService tutorService;
     
     // Listar todos os pets
     @GetMapping
@@ -26,6 +35,7 @@ public class PetController {
     @GetMapping("/novo")
     public String novo(Model model) {
         model.addAttribute("pet", new Pet());
+        model.addAttribute("tutores", tutorService.listarTodos());
         return "pets/form";
     }
     
@@ -35,6 +45,7 @@ public class PetController {
         var pet = petService.buscarPorId(id);
         if (pet.isPresent()) {
             model.addAttribute("pet", pet.get());
+            model.addAttribute("tutores", tutorService.listarTodos());
             return "pets/form";
         } else {
             redirectAttributes.addFlashAttribute("erro", "Pet não encontrado!");

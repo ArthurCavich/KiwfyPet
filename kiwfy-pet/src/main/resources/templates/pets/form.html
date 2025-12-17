@@ -71,6 +71,55 @@
                                        th:field="*{cor}" 
                                        placeholder="Digite a cor do pet">
                             </div>
+
+                            <!-- Bairro -->
+                            <div class="mb-3">
+                                <label for="bairro" class="form-label">Bairro</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="bairro"
+                                       th:field="*{bairro}"
+                                       placeholder="Informe o bairro (onde foi visto/perdido)">
+                            </div>
+
+                            <!-- Geolocalização (opcional) -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="latitude" class="form-label">Latitude</label>
+                                    <input type="number" step="0.000001" class="form-control" id="latitude" th:field="*{latitude}" placeholder="-19.123456">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="longitude" class="form-label">Longitude</label>
+                                    <input type="number" step="0.000001" class="form-control" id="longitude" th:field="*{longitude}" placeholder="-47.987654">
+                                </div>
+                            </div>
+
+                            <!-- Foto -->
+                            <div class="mb-3">
+                                <label for="fotoUrl" class="form-label">URL da foto do pet</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="fotoUrl"
+                                       th:field="*{fotoUrl}"
+                                       placeholder="Cole o link da imagem (https://...)">
+                                <small class="text-muted">Use uma URL de imagem pública ou deixe vazio.</small>
+                            </div>
+
+                            <!-- Tutor -->
+                            <div class="mb-3">
+                                <label for="tutor" class="form-label">Tutor <span class="text-danger">*</span></label>
+                                <select class="form-select"
+                                        id="tutor"
+                                        name="tutor.id"
+                                        required>
+                                    <option value="">Selecione um tutor</option>
+                                    <option th:each="t : ${tutores}"
+                                            th:value="${t.id}"
+                                            th:text="${t.nome + ' - ' + t.email}"
+                                            th:selected="${pet.tutor != null and pet.tutor.id == t.id}"></option>
+                                </select>
+                                <small class="text-muted">Escolha o tutor responsável pelo pet.</small>
+                            </div>
                             
                             <!-- Observações -->
                             <div class="mb-3">
@@ -85,7 +134,7 @@
                             <!-- Botões -->
                             <div class="d-flex justify-content-between">
                                 <a th:href="@{/pets}" class="btn btn-secondary">Cancelar</a>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-kiwi-brown">
                                     <span th:text="${pet.id != null ? 'Atualizar' : 'Salvar'}">Salvar</span>
                                 </button>
                             </div>

@@ -29,5 +29,13 @@ public class LocalizadorService {
     public void excluir(Long id) {
         LocalizadorRepository.deleteById(id);
     }
+
+    public void marcarEncontrado(Long id) {
+        Optional<Localizador> opt = LocalizadorRepository.findById(id);
+        opt.ifPresent(loc -> {
+            loc.setEncontrado(true);
+            LocalizadorRepository.save(loc);
+        });
+    }
 }
 

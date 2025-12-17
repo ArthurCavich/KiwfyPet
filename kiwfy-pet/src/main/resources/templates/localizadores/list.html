@@ -5,7 +5,7 @@
      <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Lista de Localizadores</h1>
-            <a th:href="@{/localizadores/novo}" class="btn btn-primary">Novo Localizador</a>
+            <a th:href="@{/localizadores/novo}" class="btn btn-kiwi-brown">Novo Localizador</a>
         </div>
         
         <!-- Mensagens de sucesso/erro -->
@@ -29,6 +29,9 @@
                             <th>E-mail</th>
                             <th>Telefone</th>
                             <th>Endereço</th>
+                            <th>Bairro</th>
+                            <th>Status</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,9 +41,14 @@
                             <td th:text="${localizador.email}"></td>
                             <td th:text="${localizador.telefone}"></td>
                             <td th:text="${localizador.endereco}"></td>
-                        
+                            <td th:text="${localizador.bairro}"></td>
                             <td>
-                                <a th:href="@{/localizadores/editar/{id}(id=${localizador.id})}" class="btn btn-sm btn-warning">Editar</a>
+                                <span th:if="${localizador.encontrado}" class="badge bg-success">Encontrado</span>
+                                <span th:unless="${localizador.encontrado}" class="badge bg-warning text-dark">Perdido</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/localizadores/editar/{id}(id=${localizador.id})}" class="btn btn-sm btn-kiwi-brown">Editar</a>
+                                <a th:if="${!localizador.encontrado}" th:href="@{/localizadores/encontrado/{id}(id=${localizador.id})}" class="btn btn-sm btn-success">Marcar encontrado</a>
                                 <a th:href="@{/localizadores/excluir/{id}(id=${localizador.id})}" 
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('Tem certeza que deseja excluir este localizador?')">Excluir</a>
@@ -52,9 +60,9 @@
         </div>
         
         <!-- Mensagem quando não há localizadores -->
-        <div th:if="${localizadores == null or localizadores.isEmpty()}" class="alert alert-info">
-            <h5>Nenhum localizador cadastrado ainda.</h5>
-            <p>Clique em "Novo Localizador" para começar a cadastrar.</p>
+        <div th:if="${localizadores == null or localizadores.isEmpty()}" class="alert alert-success">
+            <h5 class="mb-1">Nenhum localizador cadastrado ainda.</h5>
+            <p class="mb-0">Clique em "Novo Localizador" para começar a cadastrar.</p>
         </div>
     </div>
     </div>

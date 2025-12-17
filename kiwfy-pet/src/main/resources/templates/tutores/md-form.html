@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout('Tutor + Pets', ~{::content})}">
+  <body>
+    <div th:fragment="content">
+      <div class="container mt-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+              <i class="bi bi-person"></i>
+              <span th:text="${tutor.id != null ? 'Editar Tutor e Pets' : 'Novo Tutor e Pets'}">Tutor</span>
+            </h4>
+            <span class="small">Mestre/Detalhe</span>
+          </div>
+          <div class="card-body">
+            <form th:action="@{/tutores-md/salvar}" th:object="${tutor}" method="post" id="mdForm">
+              <input type="hidden" th:field="*{id}">
+              
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nome *</label>
+                  <input type="text" class="form-control" th:field="*{nome}" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Email *</label>
+                  <input type="email" class="form-control" th:field="*{email}" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Telefone</label>
+                  <input type="text" class="form-control" th:field="*{telefone}">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Endereço</label>
+                  <input type="text" class="form-control" th:field="*{endereco}">
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Observações</label>
+                  <textarea class="form-control" rows="2" th:field="*{observacoes}"></textarea>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="mb-0"><i class="bi bi-paw"></i> Pets do Tutor</h5>
+                <button type="button" class="btn btn-sm btn-kiwi-brown-outline" onclick="addPet()">
+                  <i class="bi bi-plus-circle"></i> Adicionar Pet
+                </button>
+              </div>
+
+              <div id="petsContainer" class="row gy-3">
+                <div th:each="pet,iter : *{pets}" class="col-12">
+                  <div class="border rounded p-3">
+                    <input type="hidden" th:field="*{pets[__${iter.index}__].id}">
+                    <div class="row g-3">
+                      <div class="col-md-4">
+                        <label class="form-label">Nome *</label>
+                        <input type="text" class="form-control" th:field="*{pets[__${iter.index}__].nome}" required>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">Espécie *</label>
+                        <input type="text" class="form-control" th:field="*{pets[__${iter.index}__].especie}" required>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">Raça *</label>
+                        <input type="text" class="form-control" th:field="*{pets[__${iter.index}__].raca}" required>
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Idade</label>
+                        <input type="number" min="0" class="form-control" th:field="*{pets[__${iter.index}__].idade}">
+                      </div>
+                      <div class="col-md-3">
+                        <label class="form-label">Cor</label>
+                        <input type="text" class="form-control" th:field="*{pets[__${iter.index}__].cor}">
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label">Observações</label>
+                        <textarea class="form-control" rows="2" th:field="*{pets[__${iter.index}__].observacoes}"></textarea>
+                      </div>
+                    </div>
+                    <div class="mt-2 text-end">
+                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePet(this)">
+                        <i class="bi bi-trash"></i> Remover
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between mt-4">
+                <a th:href="@{/tutores}" class="btn btn-secondary">
+                  <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+                <button type="submit" class="btn btn-kiwi-brown">
+                  <i class="bi bi-save"></i> Salvar Tutor e Pets
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // adiciona um bloco de pet "à mão" para submit em arrays
+      function addPet() {
+        const container = document.getElementById('petsContainer');
+        const index = container.children.length;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'col-12';
+        wrapper.innerHTML = `
+          <div class="border rounded p-3">
+            <input type="hidden" name="pets[${index}].id" value="">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label">Nome *</label>
+                <input type="text" class="form-control" name="pets[${index}].nome" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Espécie *</label>
+                <input type="text" class="form-control" name="pets[${index}].especie" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Raça *</label>
+                <input type="text" class="form-control" name="pets[${index}].raca" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Idade</label>
+                <input type="number" min="0" class="form-control" name="pets[${index}].idade">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Cor</label>
+                <input type="text" class="form-control" name="pets[${index}].cor">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Observações</label>
+                <textarea class="form-control" rows="2" name="pets[${index}].observacoes"></textarea>
+              </div>
+            </div>
+            <div class="mt-2 text-end">
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePet(this)">
+                <i class="bi bi-trash"></i> Remover
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(wrapper);
+      }
+
+      function removePet(button) {
+        const card = button.closest('.col-12');
+        if (card) card.remove();
+        renumerar();
+      }
+
+      function renumerar() {
+        const container = document.getElementById('petsContainer');
+        const cards = container.querySelectorAll('.col-12');
+        cards.forEach((card, idx) => {
+          // renomeia todos os inputs/textarea
+          const fields = card.querySelectorAll('input, textarea');
+          fields.forEach(f => {
+            if (f.name) f.name = f.name.replace(/pets\\[\\d+\\]/, `pets[${idx}]`);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
+

@@ -49,6 +49,13 @@ public class LocalizadorController {
         redirectAttributes.addFlashAttribute("sucesso", "localizador salvo com sucesso!");
         return "redirect:/localizadores";
     }
+
+    @GetMapping("/encontrado/{id}")
+    public String marcarEncontrado(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        localizadorService.marcarEncontrado(id);
+        redirectAttributes.addFlashAttribute("sucesso", "Registro marcado como encontrado!");
+        return "redirect:/localizadores";
+    }
     
     // Excluir tutor
     @GetMapping("/excluir/{id}")
