@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout('Localizadores', ~{::content})}">
+  <body>
+    <div th:fragment="content">
+     <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Lista de Localizadores</h1>
+            <a th:href="@{/localizadores/novo}" class="btn btn-primary">Novo Localizador</a>
+        </div>
+        
+        <!-- Mensagens de sucesso/erro -->
+        <div th:if="${sucesso}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${sucesso}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${erro}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${erro}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <!-- Tabela de pets -->
+        <div th:if="${localizadores != null and !localizadores.isEmpty()}" class="card">
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Endereço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="localizador : ${localizadores}">
+                            <td th:text="${localizador.id}"></td>
+                            <td th:text="${localizador.nome}"></td>
+                            <td th:text="${localizador.email}"></td>
+                            <td th:text="${localizador.telefone}"></td>
+                            <td th:text="${localizador.endereco}"></td>
+                        
+                            <td>
+                                <a th:href="@{/localizadores/editar/{id}(id=${localizador.id})}" class="btn btn-sm btn-warning">Editar</a>
+                                <a th:href="@{/localizadores/excluir/{id}(id=${localizador.id})}" 
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Tem certeza que deseja excluir este localizador?')">Excluir</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Mensagem quando não há localizadores -->
+        <div th:if="${localizadores == null or localizadores.isEmpty()}" class="alert alert-info">
+            <h5>Nenhum localizador cadastrado ainda.</h5>
+            <p>Clique em "Novo Localizador" para começar a cadastrar.</p>
+        </div>
+    </div>
+    </div>
+  </body>
+</html> 

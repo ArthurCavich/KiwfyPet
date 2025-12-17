@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout('Tutor', ~{::content})}">
+  <body>
+    <div th:fragment="content">
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 th:text="${tutor.id != null ? 'Editar Tutor' : 'Novo Tutor'}">Formulário de Tutor</h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/tutores/salvar}" th:object="${tutor}" method="post">
+                            <!-- Campo ID (oculto para edição) -->
+                            <input type="hidden" th:field="*{id}"/>
+                            
+                            <!-- Nome -->
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="nome" 
+                                       th:field="*{nome}" 
+                                       required
+                                       placeholder="Digite o nome do Tutor">
+                            </div>
+                            
+                            <!-- E-mail -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="email" 
+                                       th:field="*{email}" 
+                                       required
+                                       placeholder="Digite o email">
+                            </div>
+                            
+                            <!-- Telefone -->
+                            <div class="mb-3">
+                                 <label for="telefone" class="form-label">Telefone <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="telefone" 
+                                       th:field="*{telefone}" 
+                                       required
+                                       placeholder="Digite o telefone">
+                            </div>
+
+                          <!-- Endereço -->
+                            <div class="mb-3">
+                                 <label for="endereco" class="form-label">Endereço <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="endereco" 
+                                       th:field="*{endereco}" 
+                                       required
+                                       placeholder="Digite o endereco">
+                            </div>
+                            
+                            <!-- Senha -->
+                            <div class="mb-3">
+                                <label for="senha" class="form-label">Senha</label>
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="senha" 
+                                        required
+                                       placeholder="Digite a senha">
+                            </div>
+                            
+                            
+                            <!-- Botões -->
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/tutores}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-primary">
+                                    <span th:text="${tutor.id != null ? 'Atualizar' : 'Salvar'}">Salvar</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+  </body>
+</html> 
