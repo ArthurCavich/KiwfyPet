@@ -26,6 +26,8 @@ public class HomeController {
         model.addAttribute("totalOwners", ownerService.listarTodos().size());
         model.addAttribute("totalLost", lostService.listarNaoEncontrados().size());
         return "index";
+    public String home() {
+        return "/home/index";
     }
 }
 
