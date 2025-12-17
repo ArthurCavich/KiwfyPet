@@ -37,7 +37,6 @@
                             <th>Email</th>
                             <th>Telefone</th>
                             <th>Endereço</th>
-                            <th>Pets</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -48,9 +47,6 @@
                             <td th:text="${owner.email}"></td>
                             <td th:text="${owner.telefone}"></td>
                             <td th:text="${owner.endereco != null ? owner.endereco : 'N/A'}"></td>
-                            <td>
-                                <span class="badge bg-info" th:text="${owner.pets != null ? owner.pets.size() : 0} + ' pet(s)'"></span>
-                            </td>
                             <td>
                                 <a th:href="@{/owners/editar/{id}(id=${owner.id})}" class="btn btn-sm btn-warning">
                                     <i class="bi bi-pencil"></i> Editar
