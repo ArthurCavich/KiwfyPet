@@ -24,6 +24,9 @@ public class PetController {
     @Autowired
     private TutorService tutorService;
     
+    @Autowired
+    private OwnerService ownerService;
+    
     // Listar todos os pets
     @GetMapping
     public String listar(Model model) {
@@ -55,7 +58,15 @@ public class PetController {
     
     // Salvar pet (criar ou atualizar)
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute Pet pet, RedirectAttributes redirectAttributes) {
+    public String salvar(@ModelAttribute Pet pet, 
+                        @RequestParam(required = false) Long ownerId,
+                        RedirectAttributes redirectAttributes) {
+        if (ownerId != null) {
+            var owner = ownerService.buscarPorId(ownerId);
+            if (owner.isPresent()) {
+                pet.setOwner(owner.get());
+            }
+        }
         petService.salvar(pet);
         redirectAttributes.addFlashAttribute("sucesso", "Pet salvo com sucesso!");
         return "redirect:/pets";

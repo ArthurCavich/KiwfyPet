@@ -121,6 +121,25 @@
                                 <small class="text-muted">Escolha o tutor responsável pelo pet.</small>
                             </div>
                             
+                            <!-- Tutor -->
+                            <div class="mb-3">
+                                <label for="ownerId" class="form-label">Tutor <span class="text-danger">*</span></label>
+                                <select class="form-select" 
+                                        id="ownerId" 
+                                        name="ownerId"
+                                        required>
+                                    <option value="">Selecione um tutor</option>
+                                    <option th:each="owner : ${owners}" 
+                                            th:value="${owner.id}" 
+                                            th:text="${owner.nome + ' - ' + owner.email}"
+                                            th:selected="${pet.owner != null and pet.owner.id == owner.id}">
+                                    </option>
+                                </select>
+                                <small class="form-text text-muted">
+                                    Não tem um tutor cadastrado? <a th:href="@{/owners/novo}">Cadastre um novo tutor</a>
+                                </small>
+                            </div>
+                            
                             <!-- Observações -->
                             <div class="mb-3">
                                 <label for="observacoes" class="form-label">Observações</label>

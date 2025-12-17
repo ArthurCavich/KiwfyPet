@@ -13,30 +13,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "pets")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pet {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
     private String nome;
-    
+
     @Column(nullable = false)
     private String especie; // Cachorro, Gato, etc.
-    
+
     @Column(nullable = false)
     private String raca;
-    
+
     private Integer idade;
-    
+
     private String cor;
-    
+
     @Column(length = 500)
     private String observacoes;
 
@@ -53,4 +56,3 @@ public class Pet {
     @JoinColumn(name = "tutor_id")
     private Tutor tutor;
 }
-
